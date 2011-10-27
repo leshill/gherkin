@@ -140,6 +140,12 @@ static VALUE rb_eGherkinLexingError;
       lexer->current_line);
   }
 
+  action store_use_content {
+    store_use_con(listener, "use",
+      PTR_TO(content_start), LEN(content_start, p),
+      lexer->current_line);
+  }
+
   action store_comment_content {
     STORE_ATTR(comment);
     lexer->mark = 0;
@@ -281,6 +287,17 @@ store_kw_con(VALUE listener, const char * event_name,
   con = ENCODED_STR_NEW(at, length);
   rb_funcall(con, rb_intern("strip!"), 0);
   rb_funcall(listener, rb_intern(event_name), 3, kw, con, INT2FIX(current_line));
+}
+
+static void
+store_use_con(VALUE listener, const char * event_name,
+             const char * at,         size_t length,
+             int current_line)
+{
+  VALUE con = Qnil;
+  con = ENCODED_STR_NEW(at, length);
+  rb_funcall(con, rb_intern("strip!"), 0);
+  rb_funcall(listener, rb_intern(event_name), 2, con, INT2FIX(current_line));
 }
 
 static void

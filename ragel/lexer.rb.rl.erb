@@ -58,6 +58,11 @@ module Gherkin
           @listener.step(@keyword, con, @current_line)
         }
 
+        action store_use_content {
+          con = utf8_pack(data[@content_start...p]).strip
+          @listener.use(con, @current_line)
+        }
+
         action store_comment_content {
           con = utf8_pack(data[@content_start...p]).strip
           @listener.comment(con, @line_number)

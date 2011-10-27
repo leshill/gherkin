@@ -292,6 +292,24 @@ f'real
         end
       end
 
+      describe "Use" do
+        it "parses" do
+          scan(%{Use my_module})
+          @listener.to_sexp.should == [
+            [:use, "my_module", 1],
+            [:eof]
+          ]
+        end
+
+        it "passes along the raw list of modules" do
+          scan(%{Use my_module_1, my_module_2})
+          @listener.to_sexp.should == [
+            [:use, "my_module_1, my_module_2", 1],
+            [:eof]
+          ]
+        end
+      end
+
       describe "A single feature, single scenario, single step" do
         it "should find the feature, scenario, and step" do
           scan("Feature: Feature Text\n  Scenario: Reading a Scenario\n    Given there is a step\n")
@@ -391,6 +409,24 @@ f'real
             [:step, "Given ", "a step", 3],
             [:scenario, "Scenario", "A second scenario", "", 4],
             [:step, "Given ", "another step", 5],
+            [:eof]
+          ]
+        end
+      end
+
+      describe "feature with use directives" do
+        it "should find the feature, uses, scenarios, steps, and comments in the proper order" do
+          scan_file("simple_with_uses.feature")
+          @listener.to_sexp.should == [
+            [:feature, "Feature", "Feature Text", "", 1],
+            [:use, "my_module", 2],
+            [:use, "my_other_module", 3],
+            [:scenario, "Scenario", "Reading a Scenario", "", 5],
+            [:step, "Given ", "there is a step", 6],
+            [:step, "When ", "there is an action", 7],
+            [:scenario, "Scenario", "Reading a second scenario", "", 9],
+            [:step, "Given ", "there is a step", 10],
+            [:step, "When ", "there is an action", 11],
             [:eof]
           ]
         end

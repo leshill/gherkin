@@ -276,6 +276,17 @@ module Gherkin
           formatter.result(self)
         end
       end
+
+      class Use < Hashable
+        native_impl('gherkin')
+
+        attr_reader :modules, :line
+
+        def initialize(modules_list, line)
+          @line = line
+          @modules = modules_list.split(',').map { |module_name| module_name.strip }
+        end
+      end
     end
   end
 end

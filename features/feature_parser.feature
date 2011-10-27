@@ -235,3 +235,41 @@ Feature: Gherkin Feature lexer
             | cucumbers |
       """
     Then there should be no parse errors
+
+  Scenario: Correct use of Use
+    Given the following text is parsed:
+      """
+      Feature: test feature
+        Use some_steps
+
+        Background:
+          Given a something
+          And something else
+          
+
+        @foo
+        Scenario: my scenario
+          Given this is a step
+          When this is run
+          Then it should work
+      """
+    Then there should be no parse errors
+
+  Scenario: Incorrect use of Use
+    Given the following text is parsed:
+      """
+      Feature: test feature
+        Background:
+          Given a something
+          And something else
+
+        Use some_steps
+          
+        @foo
+        Scenario: my scenario
+          Given this is a step
+          Use other_steps
+          And this is a horrible idea
+          Then it shouldn't work
+      """
+    Then there should be parse errors on lines 6 and 11

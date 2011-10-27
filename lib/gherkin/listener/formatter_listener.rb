@@ -62,6 +62,10 @@ module Gherkin
         end
       end
 
+      def use(modules_list, line)
+        @formatter.use(Formatter::Model::Use.new(modules_list, line))
+      end
+
       def row(cells, line)
         @stash.basic_statement do |comments, id|
           @current_builder.row(comments, cells, line, id)

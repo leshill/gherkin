@@ -146,6 +146,7 @@ module Gherkin
         it "should print keywords for a given language" do
           ("\n" + Gherkin::I18n.get('fr').keyword_table).should == %{
       | feature          | "Fonctionnalité"                                                                                                                                      |
+      | use              | "Use"                                                                                                                                                 |
       | background       | "Contexte"                                                                                                                                            |
       | scenario         | "Scénario"                                                                                                                                            |
       | scenario_outline | "Plan du scénario", "Plan du Scénario"                                                                                                                |

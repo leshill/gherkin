@@ -6,7 +6,7 @@ module Gherkin
   class I18n
     native_impl('gherkin') unless defined?(BYPASS_NATIVE_IMPL)
 
-    FEATURE_ELEMENT_KEYS = %w{feature background scenario scenario_outline examples}
+    FEATURE_ELEMENT_KEYS = %w{feature use background scenario scenario_outline examples}
     STEP_KEYWORD_KEYS    = %w{given when then and but}
     KEYWORD_KEYS         = FEATURE_ELEMENT_KEYS + STEP_KEYWORD_KEYS
     LANGUAGES            = YAML.load_file(File.dirname(__FILE__) + '/i18n.yml')
