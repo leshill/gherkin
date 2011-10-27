@@ -6,7 +6,7 @@ module Gherkin
     module Model
       class BasicStatement < Hashable
         attr_reader :comments, :keyword, :name, :line
-        
+
         def initialize(comments, keyword, name, line)
           @comments, @keyword, @name, @line = comments, keyword, name, line
         end
@@ -104,22 +104,22 @@ module Gherkin
         def replay(formatter)
           formatter.examples(self)
         end
-        
+
         class Builder
           def initialize(*args)
             @args = *args
             @rows = nil
           end
-        
+
           def row(comments, cells, line, id)
             @rows ||= []
             @rows << ExamplesTableRow.new(comments, cells, line, id)
           end
-        
+
           def replay(formatter)
             build.replay(formatter)
           end
-          
+
           def build
             Examples.new(*(@args << @rows))
           end
@@ -130,7 +130,7 @@ module Gherkin
         native_impl('gherkin')
 
         attr_reader :rows, :doc_string
-        
+
         def initialize(comments, keyword, name, line, rows, doc_string)
           super(comments, keyword, name, line)
           @rows, @doc_string = rows, doc_string
@@ -157,27 +157,27 @@ module Gherkin
             Argument.new(offset, val)
           end
         end
-        
+
         class Builder
           def initialize(*args)
             @args = *args
             @rows = nil
             @doc_string = nil
           end
-        
+
           def row(comments, cells, line, id)
             @rows ||= []
             @rows << DataTableRow.new(comments, cells, line)
           end
-          
+
           def doc_string(string, content_type, line)
             @doc_string = Formatter::Model::DocString.new(string, content_type, line)
           end
-        
+
           def replay(formatter)
             build.replay(formatter)
           end
-          
+
           def build
             Step.new(*(@args << @rows << @doc_string))
           end
@@ -188,7 +188,7 @@ module Gherkin
         native_impl('gherkin')
 
         attr_reader :value, :line
-        
+
         def initialize(value, line)
           @value, @line = value, line
         end
@@ -198,11 +198,11 @@ module Gherkin
         native_impl('gherkin')
 
         attr_reader :name, :line
-        
+
         def initialize(name, line)
           @name, @line = name, line
         end
-        
+
         def eql?(tag)
           @name.eql?(tag.name)
         end
@@ -216,7 +216,7 @@ module Gherkin
         native_impl('gherkin')
 
         attr_reader :value, :content_type, :line
-        
+
         def initialize(value, content_type, line)
           @value, @content_type, @line = value, content_type, line
         end
@@ -253,7 +253,7 @@ module Gherkin
         native_impl('gherkin')
 
         attr_reader :arguments, :location
-        
+
         def initialize(arguments, location)
           @arguments, @location = arguments, location
         end
@@ -267,7 +267,7 @@ module Gherkin
         native_impl('gherkin')
 
         attr_reader :status, :duration, :error_message
-        
+
         def initialize(status, duration, error_message)
           @status, @duration, @error_message = status, duration, error_message
         end
